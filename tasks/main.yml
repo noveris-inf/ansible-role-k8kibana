@@ -1,0 +1,58 @@
+---
+
+- name: Create kibana config directory
+  command: "mkdir -p {{ kibana_config_dir }}"
+
+- name: kibana location
+  file:
+    state: directory
+    path: "{{ kibana_config_dir }}"
+    owner: "root"
+    group: "root"
+    mode: 0755
+
+- name: Read kibana cert
+  slurp:
+    src: "{{ kibana_cert_file }}"
+  register: kibana_cert_data
+
+- name: Read kibana key
+  slurp:
+    src: "{{ kibana_key_file }}"
+  register: kibana_key_data
+
+- name: Read CA file
+  slurp:
+    src: "{{ kibana_ca_file }}"
+  register: kibana_ca_data
+
+- name: Generate kibana object key
+  when: "kibana_generate_object_key and kibana_object_key == ''"
+  include_tasks: generate_key.yml
+
+- name: Copy kibana triggers
+  template:
+    src: kibana_triggers.yml.j2
+    dest: "{{ kibana_config_dir }}/kibana_triggers.yml"
+    owner: root
+    group: root
+    mode: 0640
+
+- name: Get trigger SHA sum
+  stat:
+    checksum_algorithm: sha256
+    path: "{{ kibana_config_dir }}/kibana_triggers.yml"
+  register: trigger_sha_sum
+
+- name: Copy kibana config
+  template:
+    src: kibana.yml.j2
+    dest: "{{ kibana_config_dir }}/kibana.yml"
+    owner: root
+    group: root
+    mode: 0640
+
+- name: Apply kibana resources
+  command: "kubectl apply -f {{ kibana_config_dir }}/kibana_triggers.yml -f {{ kibana_config_dir }}/kibana.yml"
+
+...

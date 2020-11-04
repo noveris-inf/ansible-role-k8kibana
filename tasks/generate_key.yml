@@ -1,0 +1,23 @@
+---
+
+- name: Read kibana encryption key
+  command: "cat {{ kibana_config_dir }}/kibana.object.key"
+  register: kibana_object_key_run
+  failed_when: false
+  changed_when: false
+
+- name: Generate kibana encryption key
+  when: kibana_object_key_run.rc|default(1) != 0 or kibana_object_key_run.stdout|default('') == ''
+  shell: "openssl rand -base64 32 > {{ kibana_config_dir }}/kibana.object.key"
+
+- name: Re-read kibana encryption key
+  command: "cat {{ kibana_config_dir }}/kibana.object.key"
+  register: kibana_object_key_run
+  changed_when: false
+
+- name: Kibana Object Key Var
+  set_fact:
+    kibana_object_key: "{{ kibana_object_key_run.stdout }}"
+
+
+...

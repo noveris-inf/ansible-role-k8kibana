@@ -1,0 +1,11 @@
+---
+
+kibana_namespace: "{{ kubernetes_namespace | default('default') }}"
+kibana_config_dir: "{{ kubernetes_namespace_dir }}/kibana"
+kibana_tolerate_master: false
+kibana_object_key: ""
+kibana_generate_object_key: true
+#kibana_elastic_user:
+#kibana_elastic_pass:
+
+...
