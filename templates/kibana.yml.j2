@@ -47,7 +47,7 @@ spec:
             secretName: kibana-cert
       containers:
         - name: kibana
-          image: docker.elastic.co/kibana/kibana:7.9.0
+          image: {{ kibana_image_ref }}
           env:
             - name: ELASTICSEARCH_HOSTS
               value: "[\"https://elastic-svc:9200\"]"
