@@ -1,3 +1,3 @@
-# ansible-role-k8kibana
+# ansible-role-kube-kibana
 
-[![Latest](https://github.com/noveris-inf/ansible-role-k8kibana/workflows/Latest/badge.svg)](https://github.com/noveris-inf/ansible-role-k8kibana/actions?query=workflow%3ALatest) [![Versioned](https://github.com/noveris-inf/ansible-role-k8kibana/workflows/Versioned/badge.svg)](https://github.com/noveris-inf/ansible-role-k8kibana/actions?query=workflow%3AVersioned)
+[![latest](https://github.com/archmachina/ansible-role-kube-kibana/workflows/latest/badge.svg)](https://github.com/archmachina/ansible-role-kube-kibana/actions?query=workflow%3Alatest)
